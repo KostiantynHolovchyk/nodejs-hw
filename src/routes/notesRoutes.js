@@ -15,7 +15,11 @@ import {
   updateNote,
 } from '../controllers/notesController.js';
 
+import { authenticate } from '../middleware/authenticate.js';
+
 const router = express.Router();
+
+router.use(authenticate);
 
 router.get('/notes', celebrate(getAllNotesSchema), getAllNotes);
 router.get('/notes/:noteId', celebrate(noteIdSchema), getNoteById);
