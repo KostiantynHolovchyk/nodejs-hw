@@ -10,6 +10,7 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import notesRoutes from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use(logger);
 app.use(express.json());
 app.use(notesRoutes);
 app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
 app.use(errors());
 app.use(notFoundHandler);
 app.use(errorHandler);
