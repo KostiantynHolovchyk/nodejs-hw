@@ -13,16 +13,18 @@ import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
+
 const app = express();
+
 app.use(cors());
 app.use(cookieParser());
 app.use(logger);
 app.use(express.json());
-app.use(notesRoutes);
+app.use('/notes', notesRoutes);
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
-app.use(errors());
 app.use(notFoundHandler);
+app.use(errors());
 app.use(errorHandler);
 
 await connectMongoDB();
@@ -30,5 +32,5 @@ await connectMongoDB();
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
