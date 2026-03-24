@@ -14,11 +14,12 @@ import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 const app = express();
+
 app.use(cors());
 app.use(cookieParser());
 app.use(logger);
 app.use(express.json());
-app.use(notesRoutes);
+app.use('/notes', notesRoutes);
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use(errors());

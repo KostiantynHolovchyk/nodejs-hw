@@ -21,9 +21,10 @@ export const getAllNotes = async (req, res) => {
 
   const skip = (pageNumber - 1) * perPageNumber;
 
-  const totalNotes = await Note.countDocuments(filter);
-
-  const notes = await Note.find(filter).skip(skip).limit(perPageNumber);
+  const [totalNotes, notes] = await Promise.all([
+    Note.countDocuments(filter),
+    Note.find(filter).skip(skip).limit(perPageNumber),
+  ]);
 
   const totalPages = Math.ceil(totalNotes / perPageNumber);
 
@@ -72,7 +73,7 @@ export const deleteNote = async (req, res) => {
     throw createHttpError(404, 'Note not found');
   }
 
-  res.sendStatus(204);
+  res.status(200).json(note);
 };
 
 export const updateNote = async (req, res) => {
@@ -84,7 +85,7 @@ export const updateNote = async (req, res) => {
       userId: req.user._id,
     },
     req.body,
-    { new: true },
+    { returnDocument: 'after' },
   );
 
   if (!note) {
